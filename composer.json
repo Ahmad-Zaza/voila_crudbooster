@@ -36,7 +36,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "voila_crocodicstudio\\crudbooster\\CRUDBoosterServiceProvider"
+                "crocodicstudio\\crudbooster\\CRUDBoosterServiceProvider"
             ]
         }
     }
