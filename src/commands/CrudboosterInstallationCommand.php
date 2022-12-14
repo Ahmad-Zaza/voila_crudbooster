@@ -47,6 +47,11 @@ class CrudboosterInstallationCommand extends Command
             $this->info('Publishing crudbooster assets...');
             $this->call('vendor:publish', ['--provider' => 'crocodicstudio\crudbooster\CRUDBoosterServiceProvider']);
 
+            //*********// publish laravel file manager
+            $this->info("Publishing file manager assets....");
+            $this->call('vendor:publish', ['--tag' => 'lfm_config', '--force' => true]);
+            $this->call('vendor:publish', ['--tag' => 'lfm_public', '--force' => true]);
+
             $this->info('Dumping the autoloaded files and reloading all new files...');
             $composer = $this->findComposer();
 
@@ -81,12 +86,12 @@ class CrudboosterInstallationCommand extends Command
     private function header()
     {
         $this->info("
-#     __________  __  ______  ____                   __           
+#     __________  __  ______  ____                   __
 #    / ____/ __ \/ / / / __ \/ __ )____  ____  _____/ /____  _____
 #   / /   / /_/ / / / / / / / __  / __ \/ __ \/ ___/ __/ _ \/ ___/
-#  / /___/ _, _/ /_/ / /_/ / /_/ / /_/ / /_/ (__  ) /_/  __/ /    
-#  \____/_/ |_|\____/_____/_____/\____/\____/____/\__/\___/_/     
-#                                                                                                                       
+#  / /___/ _, _/ /_/ / /_/ / /_/ / /_/ / /_/ (__  ) /_/  __/ /
+#  \____/_/ |_|\____/_____/_____/\____/\____/____/\__/\___/_/
+#
 			");
         $this->info('--------- :===: Thanks for choosing CRUDBooster :==: ---------------');
         $this->info('====================================================================');
