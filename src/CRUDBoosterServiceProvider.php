@@ -32,7 +32,7 @@ class CRUDBoosterServiceProvider extends ServiceProvider
             $this->publishes([__DIR__ . '/configs/crudbooster.php' => config_path('crudbooster.php')], 'cb_config');
             $this->publishes([__DIR__ . '/userfiles/controllers/CBHook.php' => app_path('Http/Controllers/CBHook.php')], 'CBHook');
             $this->publishes([__DIR__ . '/userfiles/controllers/AdminCmsUsersController.php' => app_path('Http/Controllers/AdminCmsUsersController.php')], 'cb_user_controller');
-            $this->publishes([__DIR__ . '/assets/assets/js/voila_filemanager.js' => public_path('js')], 'voila_filemanager');
+            $this->publishes([__DIR__ . '/assets/assets/js/voila_filemanager.js' => public_path('js/voila_filemanager.js')], 'voila_filemanager');
         }
 
         $this->customValidation();
