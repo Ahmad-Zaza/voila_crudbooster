@@ -59,6 +59,11 @@ class CRUDBoosterServiceProvider extends ServiceProvider
             $this->commands('crudboosterMailQueue');
         }
 
+        $this->app->register('Barryvdh\DomPDF\ServiceProvider');
+        $this->app->register('Maatwebsite\Excel\ExcelServiceProvider');
+        $this->app->register('Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider');
+        $this->app->register('Intervention\Image\ImageServiceProvider');
+
         $loader = AliasLoader::getInstance();
         $loader->alias('PDF', 'Barryvdh\DomPDF\Facade');
         $loader->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
@@ -66,7 +71,6 @@ class CRUDBoosterServiceProvider extends ServiceProvider
         $loader->alias('CRUDBooster', 'crocodicstudio\crudbooster\helpers\CRUDBooster');
         $loader->alias('CB', 'crocodicstudio\crudbooster\helpers\CB');
 
-        $this->app->register('Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider');
     }
 
     private function registerSingleton()
