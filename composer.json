@@ -36,8 +36,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "crocodicstudio\\crudbooster\\CRUDBoosterServiceProvider",
-                "unisharp\\laravel-filemanager\\LaravelFilemanagerServiceProvider"
+                "voila_crocodicstudio\\crudbooster\\CRUDBoosterServiceProvider"
             ]
         }
     }
