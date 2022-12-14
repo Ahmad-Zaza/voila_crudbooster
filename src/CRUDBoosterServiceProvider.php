@@ -32,7 +32,7 @@ class CRUDBoosterServiceProvider extends ServiceProvider
             $this->publishes([__DIR__ . '/configs/crudbooster.php' => config_path('crudbooster.php')], 'cb_config');
             $this->publishes([__DIR__ . '/userfiles/controllers/CBHook.php' => app_path('Http/Controllers/CBHook.php')], 'CBHook');
             $this->publishes([__DIR__ . '/userfiles/controllers/AdminCmsUsersController.php' => app_path('Http/Controllers/AdminCmsUsersController.php')], 'cb_user_controller');
-            $this->publishes([__DIR__ . '/assets' => public_path('vendor/crudbooster')], 'cb_asset');
+            $this->publishes([__DIR__ . '/assets/assets/js/voila_filemanager.js' => public_path('js')], 'voila_filemanager');
         }
 
         $this->customValidation();
@@ -70,7 +70,6 @@ class CRUDBoosterServiceProvider extends ServiceProvider
         $loader->alias('Image', 'Intervention\Image\Facades\Image');
         $loader->alias('CRUDBooster', 'crocodicstudio\crudbooster\helpers\CRUDBooster');
         $loader->alias('CB', 'crocodicstudio\crudbooster\helpers\CB');
-
     }
 
     private function registerSingleton()

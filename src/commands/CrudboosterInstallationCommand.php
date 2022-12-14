@@ -1,4 +1,6 @@
-<?php namespace crocodicstudio\crudbooster\commands;
+<?php
+
+namespace crocodicstudio\crudbooster\commands;
 
 use App;
 use Cache;
@@ -40,7 +42,7 @@ class CrudboosterInstallationCommand extends Command
 
         if ($this->confirm('Do you have setting the database configuration at .env ?')) {
 
-            if (! file_exists(public_path('vendor'))) {
+            if (!file_exists(public_path('vendor'))) {
                 mkdir(public_path('vendor'), 0777);
             }
 
@@ -49,22 +51,38 @@ class CrudboosterInstallationCommand extends Command
 
             //*********// publish laravel file manager
             $this->info("Publishing file manager assets....");
+            $this->call('vendor:publish', ['--provider' => 'Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider']);
             $this->call('vendor:publish', ['--tag' => 'lfm_config', '--force' => true]);
             $this->call('vendor:publish', ['--tag' => 'lfm_public', '--force' => true]);
+
+            $configLFM = config_path('lfm.php');
+            $configLFM = file_get_contents($configLFM);
+            $configLFMModified = str_replace("['web','auth']", "['web','\crocodicstudio_voila\crudbooster\middlewares\CBBackend']", $configLFM);
+            $configLFMModified = str_replace('Unisharp\Laravelfilemanager\Handlers\ConfigHandler::class', 'function() {return Session::get("admin_id");}', $configLFMModified);
+            $configLFMModified = str_replace('auth()->user()->id', 'Session::get("admin_id")', $configLFMModified);
+            $configLFMModified = str_replace("'alphanumeric_filename' => false", "'alphanumeric_filename' => true", $configLFMModified);
+            $configLFMModified = str_replace("'alphanumeric_directory' => false", "'alphanumeric_directory' => true", $configLFMModified);
+            $configLFMModified = str_replace("'alphanumeric_directory' => false", "'alphanumeric_directory' => true", $configLFMModified);
+            $configLFMModified = str_replace("'base_directory' => 'public'", "'base_directory' => 'storage/app'", $configLFMModified);
+            $configLFMModified = str_replace("'images_folder_name' => 'photos'", "'images_folder_name' => 'uploads'", $configLFMModified);
+            $configLFMModified = str_replace("'files_folder_name'  => 'files'", "'files_folder_name'  => 'uploads'", $configLFMModified);
+            file_put_contents(config_path('lfm.php'), $configLFMModified);
+            //*********//
+
 
             $this->info('Dumping the autoloaded files and reloading all new files...');
             $composer = $this->findComposer();
 
             $process = (app()->version() >= 7.0)
-                ? new Process([$composer.' dumpautoload'])
-                : new Process($composer.' dumpautoload');
+                ? new Process([$composer . ' dumpautoload'])
+                : new Process($composer . ' dumpautoload');
 
             $process->setWorkingDirectory(base_path())->run();
 
             $this->info('Migrating database...');
 
-            if (! class_exists('CBSeeder')) {
-                require_once __DIR__.'/../database/seeds/CBSeeder.php';
+            if (!class_exists('CBSeeder')) {
+                require_once __DIR__ . '/../database/seeds/CBSeeder.php';
             }
 
             $this->call('migrate');
@@ -73,6 +91,11 @@ class CrudboosterInstallationCommand extends Command
             if (app()->version() < 5.6) {
                 $this->call('optimize');
             }
+
+            //*********//
+            
+            //*********//
+
 
             $this->info('Installing CRUDBooster Is Completed ! Thank You :)');
         } else {
@@ -103,7 +126,7 @@ class CrudboosterInstallationCommand extends Command
         $system_failed = 0;
         $laravel = app();
 
-        $this->info("Your laravel version: ".$laravel::VERSION);
+        $this->info("Your laravel version: " . $laravel::VERSION);
         $this->info("---");
 
         if (version_compare($laravel::VERSION, "6.0", ">=")) {
@@ -116,7 +139,7 @@ class CrudboosterInstallationCommand extends Command
         if (version_compare(phpversion(), '7.2.0', '>=')) {
             $this->info('PHP Version (>= 7.2.*): [Good]');
         } else {
-            $this->info('PHP Version (>= 7.2.*): [Bad] Yours: '.phpversion());
+            $this->info('PHP Version (>= 7.2.*): [Bad] Yours: ' . phpversion());
             $system_failed++;
         }
 
@@ -205,8 +228,8 @@ class CrudboosterInstallationCommand extends Command
      */
     protected function findComposer()
     {
-        if (file_exists(getcwd().'/composer.phar')) {
-            return '"'.PHP_BINARY.'" '.getcwd().'/composer.phar';
+        if (file_exists(getcwd() . '/composer.phar')) {
+            return '"' . PHP_BINARY . '" ' . getcwd() . '/composer.phar';
         }
 
         return 'composer';
