@@ -44,21 +44,9 @@ class CrudboosterUpdateCommand extends Command
         $this->info('Publishing CRUDBooster needs file...');
         $this->call('vendor:publish');
         $this->call('vendor:publish', ['--tag' => 'cb_migration', '--force' => true]);
-        $this->call('vendor:publish', ['--tag' => 'cb_lfm', '--force' => true]);
         $this->call('vendor:publish', ['--tag' => 'cb_localization', '--force' => true]);
 
-        $configLFM = config_path('lfm.php');
-        $configLFM = file_get_contents($configLFM);
-        $configLFMModified = str_replace("['web','auth']", "['web','\crocodicstudio\crudbooster\middlewares\CBBackend']", $configLFM);
-        $configLFMModified = str_replace('Unisharp\Laravelfilemanager\Handlers\ConfigHandler::class', 'function() {return Session::get("admin_id");}', $configLFMModified);
-        $configLFMModified = str_replace('auth()->user()->id', 'Session::get("admin_id")', $configLFMModified);
-        $configLFMModified = str_replace("'alphanumeric_filename' => false", "'alphanumeric_filename' => true", $configLFMModified);
-        $configLFMModified = str_replace("'alphanumeric_directory' => false", "'alphanumeric_directory' => true", $configLFMModified);
-        $configLFMModified = str_replace("'alphanumeric_directory' => false", "'alphanumeric_directory' => true", $configLFMModified);
-        $configLFMModified = str_replace("'base_directory' => 'public'", "'base_directory' => 'storage/app'", $configLFMModified);
-        $configLFMModified = str_replace("'images_folder_name' => 'photos'", "'images_folder_name' => 'uploads'", $configLFMModified);
-        $configLFMModified = str_replace("'files_folder_name'  => 'files'", "'files_folder_name'  => 'uploads'", $configLFMModified);
-        file_put_contents(config_path('lfm.php'), $configLFMModified);
+
 
         $this->info('Dumping the autoloaded files and reloading all new files...');
         $composer = $this->findComposer();
@@ -85,12 +73,12 @@ class CrudboosterUpdateCommand extends Command
     private function header()
     {
         $this->info("
-#     __________  __  ______  ____                   __           
+#     __________  __  ______  ____                   __
 #    / ____/ __ \/ / / / __ \/ __ )____  ____  _____/ /____  _____
 #   / /   / /_/ / / / / / / / __  / __ \/ __ \/ ___/ __/ _ \/ ___/
-#  / /___/ _, _/ /_/ / /_/ / /_/ / /_/ / /_/ (__  ) /_/  __/ /    
-#  \____/_/ |_|\____/_____/_____/\____/\____/____/\__/\___/_/     
-#                                                                                                                       
+#  / /___/ _, _/ /_/ / /_/ / /_/ / /_/ / /_/ (__  ) /_/  __/ /
+#  \____/_/ |_|\____/_____/_____/\____/\____/____/\__/\___/_/
+#
 			");
         $this->info('--------- :===: Thanks for choosing CRUDBooster :==: ---------------');
         $this->info('====================================================================');

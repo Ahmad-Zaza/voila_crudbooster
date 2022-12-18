@@ -31,7 +31,7 @@
 
             </div>
         @endif
-            
+
         @if($value)
             <input id="thumbnail-{{$name}}" class="form-control" type="hidden" value='{{$value}}' name="{{$name}}">
             @if(@$form['filemanager_type'] == 'file')
@@ -64,14 +64,12 @@
 </div>
 @if(@$form['filemanager_type'])
     @push('bottom')
-        <script type="text/javascript">$('#lfm-{{$name}}').filemanager('file', {prefix: "{{url(config('lfm.prefix'))}}"});</script>
     @endpush
 @else
     @push('bottom')
-        <script type="text/javascript">$('#lfm-{{$name}}').filemanager('images', {prefix: "{{url(config('lfm.prefix'))}}"});</script>
     @endpush
 
-    
+
 @endif
 
 
@@ -94,10 +92,10 @@
     <script>
 
 function OpenInsertImagesingle(name) {
-    
+
     var link=`<iframe width="100%" height="400" src="/js/includes/filemanager/dialog.php?type=2&multiple=0&field_id=`+name+`" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>`;
     console.log(link);
-    
+
     $("#modalInsertPhotosingle{{$name}} .modal-body").html(link);
     $("#modalInsertPhotosingle{{$name}}").modal();
 }
@@ -107,15 +105,15 @@ var id='#modalInsertPhotosingle{{$name}}';
 $(function () {
 
 $(id).on('hidden.bs.modal', function(){
-    
+
     var check=$('#{{$name}}').val();
     if(check!=""){
     $("#img-{{$name}}").attr("src", check);
     $("#link-{{$name}}").attr("href", check);
     $("#link-{{$name}}").removeClass("hide");
     }
-    
-    
+
+
 
   });
 });

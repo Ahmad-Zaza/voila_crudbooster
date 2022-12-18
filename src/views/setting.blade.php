@@ -1,7 +1,6 @@
 @extends('crudbooster::admin_template')
 @section('content')
     @push('bottom')
-        <script src="{{asset('vendor/laravel-filemanager/js/lfm.js')}}"></script>
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>
             $(function () {
